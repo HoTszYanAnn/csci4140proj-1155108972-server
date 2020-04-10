@@ -56,6 +56,7 @@ const end = (hp) => {
 }
 
 const Minesweeper = {
+    name: 'minesweeper',
     setup: () => ({
         cells: createRandomMinedArray(),
         mineValue: createArroundMineValueArray(),
@@ -147,4 +148,4 @@ const server = Server({
   games: [Minesweeper],
 });
 
-server.run(8000, () => console.log("server running..."));
+server.run(8080, () => console.log("server running..."));
