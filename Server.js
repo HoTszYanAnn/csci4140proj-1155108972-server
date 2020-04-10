@@ -148,4 +148,4 @@ const server = Server({
   games: [Minesweeper],
 });
 
-server.run(3000, () => console.log("server running..."));
+server.run(process.env.PORT, () => console.log("server running..."));
