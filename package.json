@@ -4,5 +4,8 @@
   "main": "Server.js",
   "scripts": {
     "start": "node Server.js"
+  },
+  "dependencies": {
+    "boardgame.io": "^0.39.5"
   }
 }
