@@ -1,8 +1,11 @@
 {
   "name": "minesweeper-server",
-  "description": "server testing",
+  "description": "testing",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
+  },
+  "dependencies": {
+    "ejs": "~1.0.0"
   }
 }
