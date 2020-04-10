@@ -1,8 +1,8 @@
 {
   "name": "minesweeper-server",
   "description": "testing",
-  "main": "server.js",
+  "main": "Server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node Server.js"
   }
 }
