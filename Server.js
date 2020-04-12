@@ -1,7 +1,7 @@
 const Server = require('boardgame.io/server').Server;
-
 const x = 16;
 const y = 9;
+
 const createRandomMinedArray = () => {
     const arr = Array(x * y).fill(null);
     return arr;
@@ -17,8 +17,7 @@ const createArroundMineValueArray = () => {
 }
 
 const calculateMinesAround = (cells,mineValue,id) => {
-    let mines = 0;
-    
+    let mines = 0; 
     if(mineValue[id-1] && mineValue[id-1] > 0 && (id % x != 0)) {
         mines = mines + mineValue[id-1];
     }
@@ -45,7 +44,21 @@ const calculateMinesAround = (cells,mineValue,id) => {
     }
     return mines;
 }
+const perSweep = (mineValue, id, cells, hp, cPlayer, currentValue) => {
+    if (cells[id] || cells[id] == 0){
 
+    }else if(mineValue[id] > 0) {
+            cells[id] = calculateMinesAround(cells,mineValue, id);
+            console.log('mine'+'+'+cells[id]+'+'+ mineValue[id]);
+            hp[cPlayer] = hp[cPlayer] - mineValue[id];
+            if (hp[cPlayer] < 0){
+                hp[cPlayer] = 0;
+            }
+            currentValue[id] = 1; 
+        }else{
+            cells[id] = calculateMinesAround(cells,mineValue, id);
+        }
+}
 const end = (hp) => {
     if (hp[0] <= 0)
         return {winner : 1};
@@ -71,30 +84,25 @@ const Minesweeper = {
     }),
     moves: {
         sweep(G, ctx, id) {
-            console.log(id);
             let cells = [...G.cells];
             let mineValue = [...G.mineValue];
             let currentValue = [...G.currentValue];
             let cPlayer = ctx.currentPlayer;
             let hp = [...G.hp];
-            let a = 0;
-            console.log(cPlayer);
-            console.log(hp[cPlayer]);
             currentValue[id] = 0;
-            if(mineValue[id] > 0) {
-                cells[id] = calculateMinesAround(G.cells,mineValue, id);
-                console.log('mine'+'+'+cells[id]+'+'+ mineValue[id]);
-                hp[cPlayer] = hp[cPlayer] - mineValue[id];
-                if (hp[cPlayer] < 0){
-                    hp[cPlayer] = 0;
-                }
-                currentValue[id] = 1; 
-                console.log(cPlayer+':'+hp[cPlayer]+'*'+a);
-            }else{
-                cells[id] = calculateMinesAround(G.cells,mineValue, id);
-                console.log('empty'+'+'+cells[id]+'+'+mineValue[id]);
-                console.log(cPlayer+':'+hp[cPlayer]);
+            perSweep(mineValue, id, cells, hp, cPlayer, currentValue);
+            if (id % x != x - 1)  {
+                perSweep(mineValue, id+1, cells, hp, cPlayer, currentValue);
+                perSweep(mineValue, id+x+1, cells, hp, cPlayer, currentValue);
+                perSweep(mineValue, id-x+1, cells, hp, cPlayer, currentValue);
             }
+            if (id % x != 0){ 
+                perSweep(mineValue, id-1, cells, hp, cPlayer, currentValue);
+                perSweep(mineValue, id+x-1, cells, hp, cPlayer, currentValue);
+                perSweep(mineValue, id-x-1, cells, hp, cPlayer, currentValue);
+            }
+            perSweep(mineValue, id+x, cells, hp, cPlayer, currentValue);
+            perSweep(mineValue, id-x, cells, hp, cPlayer, currentValue);
             return {...G, cells,mineValue,hp,currentValue};
         },
         selectMine(G, ctx, value){
