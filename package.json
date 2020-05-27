@@ -1,11 +1,17 @@
 {
   "name": "minesweeper-server",
   "description": "testing",
+<<<<<<< HEAD
   "main": "Server.js",
   "scripts": {
     "start": "node Server.js"
   },
   "dependencies": {
     "boardgame.io": "^0.39.5"
+=======
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+>>>>>>> 85968627a8d6dbbec3b034ac8d70070873a86792
   }
 }
